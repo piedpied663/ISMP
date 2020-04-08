@@ -66,7 +66,7 @@ namespace ISMP_Pluging
         public const string BASE_SCRIPT = "Scripts";
         public const string ERROR_FILE_CONFIG = "Configuration can't be Read Check Log for details ";
         public const string ERROR_FOLDER_SCRIPT = "Sripts Folder Error Check Log for details ";
-        public const long MOD_ID = 2049622085;
+        public const long MOD_ID = 2053560250;
 
         private static readonly Logger Log = LogManager.GetLogger("[ISMP_Pluging]@BasePluging > ");
         private TorchSessionManager _Tm;

@@ -37,7 +37,7 @@ namespace ISMP_ClientMod
                 return;
 
             AddPBScriptSelector();
-            //HideEditButton(); TRy Bypass this
+            HideEditButton();
             //base.OnAddedToContainer();
             Initialized = true;
         }
@@ -97,8 +97,10 @@ namespace ISMP_ClientMod
         {
             if (pb.Storage == null)
             {
-                pb.Storage = new MyModStorageComponent();
-                pb.Storage[Config.GUID] = l.ToString();
+                pb.Storage = new MyModStorageComponent
+                {
+                    [Config.GUID] = l.ToString()
+                };
             }
             //(b as IMyProgrammableBlock).ProgramData = Scripts[l].Code;
             if (!MyAPIGateway.Multiplayer.IsServer)
