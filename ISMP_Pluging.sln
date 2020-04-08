@@ -1,0 +1,53 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29911.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISMP_Pluging", "ISMP_Pluging\ISMP_Pluging.csproj", "{D7148B1E-258F-4C29-8481-332C2624C8F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD} = {C028A48A-C095-405E-A94A-BB6FD7F283FD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISMP_WorkshopService", "ISMP_WorkshopService\ISMP_WorkshopService.csproj", "{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISMP_ClientMod", "ISMP_ClientMod\Data\Scripts\ISMP_ClientMod\ISMP_ClientMod.csproj", "{C028A48A-C095-405E-A94A-BB6FD7F283FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Debug|x64.ActiveCfg = Debug|x64
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Debug|x64.Build.0 = Debug|x64
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Release|x64.ActiveCfg = Release|x64
+		{D7148B1E-258F-4C29-8481-332C2624C8F1}.Release|x64.Build.0 = Release|x64
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Debug|x64.ActiveCfg = Debug|x64
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Debug|x64.Build.0 = Debug|x64
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Release|x64.ActiveCfg = Release|x64
+		{EBDF9B6E-C9B1-496A-93EE-B5CC1CEA7727}.Release|x64.Build.0 = Release|x64
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Debug|x64.Build.0 = Debug|Any CPU
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Release|x64.ActiveCfg = Release|Any CPU
+		{C028A48A-C095-405E-A94A-BB6FD7F283FD}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0369740D-2348-47FB-BFB3-6F8B9B6EA285}
+	EndGlobalSection
+EndGlobal
