@@ -65,16 +65,16 @@ namespace ISMP_ClientMod
                 return;
             }
             ModLogger.Info("Successfully deserialized RemoteRequest.");
-            if (request.RequestType == RemoteRequestType.MERGEDLIST_ACTION)
+            if (request.RequestType == RemoteRequestType.WHITELIST_ACTION)
             {
-                var clientRequest = request as MergedListActionRequest;
+                var clientRequest = request as WhiteListActionRequest;
                 if (clientRequest == null)
                 {
                     ModLogger.Error("No serialized data (expected WhitelistActionRequest)!");
                     return;
                 }
 
-                ReceiveWhitelist(clientRequest.MergedListAction, clientRequest.WhiteList);
+                ReceiveWhitelist(clientRequest.WhiteListAction, clientRequest.WhiteList);
             }
             else
             {

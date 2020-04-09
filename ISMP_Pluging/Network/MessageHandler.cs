@@ -32,12 +32,12 @@ namespace ISMP_Pluging.Network
                 return;
 
             MyPlug.Instance.Config.ScriptMainChanged += OnScriptEntryUpdate;
-            MyPlug.Instance.Config.WhitheListScripts.CollectionChanged += UpdateWhitelist;
+            MyPlug.Instance.Config.WhiteListScripts.CollectionChanged += UpdateWhitelist;
             MyPlug.Instance.Config.PropertyChanged += OnResetScriptToggled;
             if (MyPlug.Instance.Config.ResetScriptEnabled)
             { m_scripts[ResetPBScript.Id] = ResetPBScript.Name; }
 
-            foreach (var script in MyPlug.Instance.Config.WhitheListScripts)
+            foreach (var script in MyPlug.Instance.Config.WhiteListScripts)
                 if (script.Enabled)
                 {
                     m_scripts[script.Id] = script.Name;
@@ -107,7 +107,7 @@ namespace ISMP_Pluging.Network
         {
             Log.Info("Sending whitelist to client '{0}'...", clientId);
 
-            var request = new MergedListActionRequest(
+            var request = new WhiteListActionRequest(
                 MyAPIGateway.Multiplayer.MyId,
                 ListUpdateAction.ADD,
                 m_scripts);
@@ -140,7 +140,7 @@ namespace ISMP_Pluging.Network
                 return;
             }
 
-            var script = MyPlug.Instance.Config.WhitheListScripts.FirstOrDefault((item) => item.Id == scriptId);
+            var script = MyPlug.Instance.Config.WhiteListScripts.FirstOrDefault((item) => item.Id == scriptId);
             if (script == null)
             {
                 Log.Error("Invalid script id in recompilation request!");
@@ -191,7 +191,7 @@ namespace ISMP_Pluging.Network
 
             if (messagingReady)
             {
-                var request = new MergedListActionRequest(MyAPIGateway.Multiplayer.MyId,action, scripts);
+                var request = new WhiteListActionRequest(MyAPIGateway.Multiplayer.MyId, action, scripts);
                 Broadcast(request);
             }
         }
@@ -204,14 +204,14 @@ namespace ISMP_Pluging.Network
                 if (!script.Enabled && m_scripts.ContainsKey(script.Id))
                 {
                     Log.Info($"Script {script.Name} disabled, updating clients...");
-                    UpdateWhitelist(MyPlug.Instance.Config.WhitheListScripts,
+                    UpdateWhitelist(MyPlug.Instance.Config.WhiteListScripts,
                         new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, script));
                     //scripts.Remove(script.Id);
                 }
                 else if (script.Enabled)
                 {
                     Log.Info($"Script {script.Name} added or changed, updating clients...");
-                    UpdateWhitelist(MyPlug.Instance.Config.WhitheListScripts,
+                    UpdateWhitelist(MyPlug.Instance.Config.WhiteListScripts,
                         new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, script));
                     //scripts[script.Id] = script.Name;
                 }
@@ -234,7 +234,7 @@ namespace ISMP_Pluging.Network
 
                 if (messagingReady)
                 {
-                    var request = new MergedListActionRequest(MyAPIGateway.Multiplayer.MyId,action, new Dictionary<long, string> { { ResetPBScript.Id, ResetPBScript.Name } });
+                    var request = new WhiteListActionRequest(MyAPIGateway.Multiplayer.MyId, action, new Dictionary<long, string> { { ResetPBScript.Id, ResetPBScript.Name } });
                     Broadcast(request);
                 }
             }

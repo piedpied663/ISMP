@@ -178,7 +178,7 @@
     <Compile Include="Conf\NetworkUtil.cs" />
     <Compile Include="ISMPGameLogics.cs" />
     <Compile Include="ModLogger.cs" />
-    <Compile Include="Requests\MergedListActionRequest.cs" />
+    <Compile Include="Requests\WhiteListActionRequest.cs" />
     <Compile Include="Requests\RecompileRequest.cs" />
     <Compile Include="Requests\RemoteRequest.cs" />
     <Compile Include="WitheListData.cs" />

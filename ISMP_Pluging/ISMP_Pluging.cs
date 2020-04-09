@@ -162,7 +162,7 @@ namespace ISMP_Pluging
 
             Task.Run(delegate
             {
-                foreach (var script in _config.Data.WhitheListScripts)
+                foreach (var script in _config.Data.WhiteListScripts)
                 {
                     string code = "";
                     code = script.Code;
@@ -215,16 +215,16 @@ namespace ISMP_Pluging
             };
             if (FromModuleCommand)
             {
-                if (!_config.Data.WhitheListScripts.Contains(script1))
+                if (!_config.Data.WhiteListScripts.Contains(script1))
                 {
-                    _config.Data.WhitheListScripts.Add(script1);//need manual update for layout
+                    _config.Data.WhiteListScripts.Add(script1);//need manual update for layout
                 }
             }
             else
             {
-                if (!_config.Data.WhitheListScripts.Contains(script1))
+                if (!_config.Data.WhiteListScripts.Contains(script1))
                 {
-                    (Control.DataContext as TheConfig).WhitheListScripts.Add(script1);
+                    (Control.DataContext as TheConfig).WhiteListScripts.Add(script1);
                     //Control.UpdateLayout();
                 }
 
@@ -311,11 +311,11 @@ namespace ISMP_Pluging
 
                         if (File.Exists(_out))
                         {
-                            foreach (var script in _config.Data.WhitheListScripts)
+                            foreach (var script in _config.Data.WhiteListScripts)
                             {
                                 if (script.WorkshopID.Equals(WorkShopID))
                                 {
-                                    _config.Data.WhitheListScripts.Remove(script);
+                                    _config.Data.WhiteListScripts.Remove(script);
                                     break;
                                 }
                             }
@@ -375,7 +375,7 @@ namespace ISMP_Pluging
                 bool found = false;
                 if (enable)
                 {
-                    foreach (var script in _config.Data.WhitheListScripts)
+                    foreach (var script in _config.Data.WhiteListScripts)
                     {
                         if (script.WorkshopID == targetId)
                         {
@@ -389,7 +389,7 @@ namespace ISMP_Pluging
                 }
                 else
                 {
-                    foreach (var script in _config.Data.WhitheListScripts)
+                    foreach (var script in _config.Data.WhiteListScripts)
                     {
                         if (script.WorkshopID == targetId)
                         {
@@ -411,9 +411,9 @@ namespace ISMP_Pluging
 
         public async Task<bool> RemoveScriptFromGameAsync(string scriptWorkshopID)
         {
-            foreach (var item in _config.Data.WhitheListScripts)
+            foreach (var item in _config.Data.WhiteListScripts)
             {
-                if(item.WorkshopID.ToString() == scriptWorkshopID)
+                if (item.WorkshopID.ToString() == scriptWorkshopID)
                 {
                     if (item.Enabled == true)
                     {
@@ -421,7 +421,7 @@ namespace ISMP_Pluging
                     }
                     else
                     {
-                        _config.Data.WhitheListScripts.Remove(item);
+                        _config.Data.WhiteListScripts.Remove(item);
                     }
 
                 }
@@ -445,7 +445,7 @@ namespace ISMP_Pluging
                 return false;
             }
             return true;
-            
+
         }
 
         static public void PatchSession(PatchContext context)
@@ -502,7 +502,7 @@ namespace ISMP_Pluging
             if (CanBypassWhitelist(pb)) { return true; }
 
             //program = program.Replace(" \r", "");
-            var whitelist = Instance.Config.WhitheListScripts;
+            var whitelist = Instance.Config.WhiteListScripts;
             //var runningScripts = Instance.Config.RunningScripts;
             var scriptHash = Utility.GetMD5Hash(program);
             var comparer = StringComparer.OrdinalIgnoreCase;

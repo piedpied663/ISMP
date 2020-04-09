@@ -50,7 +50,8 @@ namespace ISMP_ClientMod
             ScriptDropBox.Title = MyStringId.GetOrCompute("Active Script");
             MyAPIGateway.TerminalControls.AddControl<IMyProgrammableBlock>(ScriptDropBox);
 
-            ScriptDropBox.ComboBoxContent = (List<MyTerminalControlComboBoxItem> items) => {
+            ScriptDropBox.ComboBoxContent = (List<MyTerminalControlComboBoxItem> items) =>
+            {
                 foreach (var script in WitheListData.Scripts)
                 {
                     items.Add(new MyTerminalControlComboBoxItem()
@@ -110,5 +111,5 @@ namespace ISMP_ClientMod
         }
     }
 
-   
+
 }

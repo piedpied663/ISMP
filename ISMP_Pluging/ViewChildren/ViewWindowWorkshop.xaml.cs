@@ -85,7 +85,7 @@ namespace ISMP_Pluging.ViewChildren
 
                 statusMsg = $"{workshopId}Get Info From Worshop";
                 PublishedItemDetails publishedItemDetails = null;
-                
+
                 var taskGetinfo = Task.Run(async delegate
                 {
                     publishedItemDetails = await MyPlug.Instance.GetPublishedItemDetailsAsync(workshopId);

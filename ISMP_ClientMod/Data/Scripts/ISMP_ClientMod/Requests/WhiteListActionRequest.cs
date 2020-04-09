@@ -8,19 +8,19 @@ namespace ISMP_ClientMod.Requests
 {
 
     [ProtoContract]
-    public class MergedListActionRequest : RemoteRequest
+    public class WhiteListActionRequest : RemoteRequest
     {
         [ProtoMember(1)]
-        public ListUpdateAction MergedListAction = ListUpdateAction.ADD;
+        public ListUpdateAction WhiteListAction = ListUpdateAction.ADD;
         [ProtoMember(2)]
         public Dictionary<long, string> WhiteList = new Dictionary<long, string>();
 
-        public MergedListActionRequest() { }
+        public WhiteListActionRequest() { }
 
-        public MergedListActionRequest(ulong sender, ListUpdateAction action, Dictionary<long,string> whitelist) : base(sender, RemoteRequestType.MERGEDLIST_ACTION)
+        public WhiteListActionRequest(ulong sender, ListUpdateAction action, Dictionary<long, string> whitelist) : base(sender, RemoteRequestType.WHITELIST_ACTION)
         {
             WhiteList = whitelist;
-            MergedListAction = action;
+            WhiteListAction = action;
         }
     }
     public enum ListUpdateAction : byte { ADD, REMOVE }

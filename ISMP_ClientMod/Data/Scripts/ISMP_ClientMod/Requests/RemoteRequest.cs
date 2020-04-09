@@ -8,7 +8,7 @@ namespace ISMP_ClientMod.Requests
 {
     [ProtoContract]
     [ProtoInclude(1, typeof(RecompileRequest))]
-    [ProtoInclude(2, typeof(MergedListActionRequest))]
+    [ProtoInclude(2, typeof(WhiteListActionRequest))]
     public class RemoteRequest
     {
         [ProtoMember(1)]
@@ -28,5 +28,5 @@ namespace ISMP_ClientMod.Requests
         }
 
     }
-    public enum RemoteRequestType : byte { RECOMPILE, MERGEDLIST_ACTION, CLIENT_REGISTRATION}
+    public enum RemoteRequestType : byte { RECOMPILE, WHITELIST_ACTION, CLIENT_REGISTRATION }
 }

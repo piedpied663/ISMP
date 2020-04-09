@@ -56,7 +56,7 @@ namespace ISMP_Pluging
         }
 
 
-        public void WhitheListScripts_TargetUpdated(object sender, DataTransferEventArgs e)
+        public void WhiteListScripts_TargetUpdated(object sender, DataTransferEventArgs e)
         {
             Pluging.Save();
         }
@@ -68,31 +68,31 @@ namespace ISMP_Pluging
         }
         public async void Button_Click_RemoveScriptAsync(object sender, RoutedEventArgs args)
         {
-            Script target = (WhitheListTable.SelectedItem as Script);
-                if (target != null)
+            Script target = (WhiteListTable.SelectedItem as Script);
+            if (target != null)
+            {
+                if (target.Deleted)
                 {
-                    if (target.Deleted)
-                    {
-                        await Delete(target);
-                        Log.Info($"On Delete Item In Merged Table");
-                        (DataContext as TheConfig).WhitheListScripts.Remove(target);
-                        Pluging.Save();
-                        MessageBox.Show($"Sucefully removed {target.Name}");
-                    }
-                    else
-                    {
-                        Log.Info($"Merged Table Nothing Enable To Delete");
-                        return;
-                    }
-
+                    await Delete(target);
+                    Log.Info($"On Delete Item In Merged Table");
+                    (DataContext as TheConfig).WhiteListScripts.Remove(target);
+                    Pluging.Save();
+                    MessageBox.Show($"Sucefully removed {target.Name}");
                 }
                 else
                 {
-                    Log.Error($"Nothing to Do");
+                    Log.Info($"Merged Table Nothing Enable To Delete");
                     return;
                 }
 
-                await Task.Delay(100);
+            }
+            else
+            {
+                Log.Error($"Nothing to Do");
+                return;
+            }
+
+            await Task.Delay(100);
         }
         private async Task Delete(Script target)
         {
@@ -137,7 +137,7 @@ namespace ISMP_Pluging
             });
             return;
         }
-     
+
         private void Button_Click_OpenCfg(object sender, RoutedEventArgs e)
         {
 
@@ -151,105 +151,4 @@ namespace ISMP_Pluging
 
         }
     }
-
-
-
-
 }
-
-/*
- * DEPRECIATED
- * 
-        public void Button_Click_OpenFolderDownload(object sender, RoutedEventArgs args)
-        {
-            Process.Start(new ProcessStartInfo()
-            {
-                FileName = $"{MyPlug.DownloadPatchCMD}",
-                UseShellExecute = true,
-                Verb = "open"
-            });
-            return;
-        }
-        private async void Button_Click_MergeScriptAsync(object sender, RoutedEventArgs e)
-        {
-
-            Script target = (WhitheListScripts_TargetUpdated.SelectedItem as Script);
-
-            if (target != null && target.Enabled)
-            {
-                DirectoryInfo di = new DirectoryInfo($"{target.Patch}");
-                {
-                    foreach (FileInfo item in di.GetFiles())
-                    {
-                        if (item.Name.Contains(".cs"))
-                        {
-                            string _out = System.IO.Path.Combine($"{MyPlug.ScriptPath}\\{target.WorkshopID}", "Script.cs");
-                            if (!Directory.Exists(System.IO.Path.Combine($"{MyPlug.ScriptPath}", $"{target.WorkshopID}")))
-                            {
-                                Directory.CreateDirectory(System.IO.Path.Combine($"{MyPlug.ScriptPath}", $"{target.WorkshopID}"));
-                            }
-                            if (File.Exists(_out))
-                            {
-                                MessageBoxResult result = MessageBox.Show($"File {target.Name} already exists in {MyPlug.ScriptPath}  Override IT ? ", "APP", MessageBoxButton.YesNo);
-                                switch (result)
-                                {
-                                    case MessageBoxResult.Yes:
-                                        foreach (var script in (DataContext as TheConfig).WhitheListScripts)
-                                        {
-                                            if (script.WorkshopID.Equals(target.WorkshopID))
-                                            {
-                                                (DataContext as TheConfig).WhitheListScripts.Remove(script);
-                                                break;
-                                            }
-                                        }
-                                        item.CopyTo(_out, true);
-                                        await AddToMergedList(target);
-                                        MessageBox.Show($"Succefully Merged {target.Name}", "APP");
-                                        break;
-                                    case MessageBoxResult.No:
-                                        break;
-
-                                }
-                            }
-                            else
-                            {
-                                item.CopyTo(_out, true);
-                                MessageBox.Show($"Succefully Merged {target.Name}", "APP");
-                                await AddToMergedList(target);
-                                //(DataContext as TheConfig).MergedListScripts.Add(target as Script);
-                            }
-                            //Log.Info($"{System.IO.Path.Combine($"{MyPlug.ScriptPath}", "Script.cs")}"); GOOD
-                            Log.Info($"{_out}");
-                        }
-
-                    }
-                }
-            }
-
-
-            await Task.Delay(500);
-            return;
-        }
-        
-        public async Task AddToMergedList(Script target)
-        {
-            string _out = System.IO.Path.Combine($"{MyPlug.ScriptPath}\\{target.WorkshopID}", "Script.cs");
-
-            Script script = new Script
-            {
-                Deleted = false,
-                Enabled = false,
-                Name = target.Name,
-                Patch = _out,
-                LastUpdate = target.LastUpdate,
-                TimeCreated = target.TimeCreated,
-                WorkshopID = target.WorkshopID,
-            };
-            if (!(DataContext as TheConfig).WhitheListScripts.Contains(script))
-            {
-                (DataContext as TheConfig).WhitheListScripts.Add(script);
-            }
-
-            await Task.Delay(500);
-        }
-    */

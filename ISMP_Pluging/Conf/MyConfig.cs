@@ -51,7 +51,7 @@ namespace ISMP_Pluging.Conf
         private const string runningScriptsFileName = "ISMP_Pluging_ActiveScripts.xml";//NETOYAGE a FAIRE
         public MyConfig() : base()
         {
-            WhitheListScripts.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs args) =>
+            WhiteListScripts.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs args) =>
             {
                 if (args.Action == NotifyCollectionChangedAction.Add || args.Action == NotifyCollectionChangedAction.Replace)
                 {
@@ -60,7 +60,7 @@ namespace ISMP_Pluging.Conf
                         {
                             OnScriptMainChanged(script, propertyC);
                         };
-                    OnPropertyChanged(nameof(WhitheListScripts));
+                    OnPropertyChanged(nameof(WhiteListScripts));
                 }
             };
 
@@ -76,14 +76,14 @@ namespace ISMP_Pluging.Conf
             ScriptMainChanged?.Invoke(sender, e);
         }
         [XmlIgnore]
-        private ObservableCollection<Script> _whitheListscript = new ObservableCollection<Script>();
+        private ObservableCollection<Script> _whiteListscript = new ObservableCollection<Script>();
         [Display(EditorType = typeof(EmbeddedCollectionEditor))]
-        public ObservableCollection<Script> WhitheListScripts
+        public ObservableCollection<Script> WhiteListScripts
         {
-            get { return _whitheListscript; }
+            get { return _whiteListscript; }
             set
             {
-                SetValue(ref _whitheListscript, value);
+                SetValue(ref _whiteListscript, value);
             }
         }
 
@@ -139,7 +139,7 @@ namespace ISMP_Pluging.Conf
 
                 foreach (var kvp in runningScripts)
                 {
-                    var script = WhitheListScripts.First(item => item.Id == kvp.Value);
+                    var script = WhiteListScripts.First(item => item.Id == kvp.Value);
                     AddRunningScript(kvp.Key, script);
                 }
             }
@@ -174,9 +174,9 @@ namespace ISMP_Pluging.Conf
         public void SaveRunningScriptsToWorld()
         {
             var running = new Dictionary<long, long>();
-#if DEBUG
+
             Log.Info("Saving running scripts to world...");
-#endif
+
             if (RunningScripts != null)
             {
                 int i = 0;

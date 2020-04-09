@@ -36,7 +36,7 @@
             </ToolTipService.ToolTip>
         </CheckBox>
         <Label Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBlack" FontSize="13" Content="Listes des scripts Actif sur le serveur (Serveur ../Instance/Scripts)"/>
-        <DataGrid Name="WhitheListTable"
+        <DataGrid Name="WhiteListTable"
                   Grid.Row="4"
                   Grid.RowSpan="3"
                   HorizontalAlignment="Stretch"
@@ -46,10 +46,10 @@
                   VerticalScrollBarVisibility="Auto"
                   Width="1080"
                   Height="Auto"
-                  ItemsSource="{Binding WhitheListScripts, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding WhiteListScripts, UpdateSourceTrigger=PropertyChanged}"
                   Margin="39,4.2,41,5.4"
                   AutoGenerateColumns="False"
-                  TargetUpdated="WhitheListScripts_TargetUpdated"
+                  TargetUpdated="WhiteListScripts_TargetUpdated"
                   CanUserSortColumns="True"
                   CanUserAddRows="False"
                   SelectionMode="Single" 
@@ -61,17 +61,17 @@
                 <DataGridTextColumn Header="ID [ISMP_Pluging]" Width="Auto" Binding="{Binding Id, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <DataGridTextColumn  Header="InstallCount" Width="Auto" Binding="{Binding InstallCount, NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn  Header="LastUpdate" Width="Auto" Binding="{Binding LastUpdate, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <DataGridTextColumn  Header="MD5" Width="Auto" Binding="{Binding MD5Hash, NotifyOnTargetUpdated=False, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <DataGridCheckBoxColumn Header="KeepUpdate" Width="Auto" Binding="{Binding KeepUpdated, NotifyOnTargetUpdated=False, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <DataGridCheckBoxColumn Header="DELETE" Width="Auto" Binding="{Binding Deleted, NotifyOnTargetUpdated=False, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <DataGridTextColumn  Header="Install Patch" Width="Auto" Binding="{Binding Patch, NotifyOnTargetUpdated=False, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <DataGridTextColumn  Header="MD5" Width="Auto" Binding="{Binding MD5Hash, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <DataGridCheckBoxColumn Header="KeepUpdate" Width="Auto" Binding="{Binding KeepUpdated, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <DataGridCheckBoxColumn Header="DELETE" Width="Auto" Binding="{Binding Deleted, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <DataGridTextColumn  Header="Install Patch" Width="Auto" Binding="{Binding Patch, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </DataGrid.Columns>
         </DataGrid>
 
         <Button Grid.Column="1" Grid.Row="0" Width="Auto" HorizontalAlignment="Left" Margin="-40,0,0,0" Content="Download" Click="Button_Click_OpenViewChildrenDownload"/>
         <Button Grid.Column="1" Grid.Row="1" Width="Auto" HorizontalAlignment="Left" Margin="-40,0,0,0" Content="OpenConfig" Click="Button_Click_OpenCfg"/>
         <Button Grid.Column="1" Grid.Row="0" Width="Auto" HorizontalAlignment="Left" Margin="40.6,0,0,0" Content="ScriptFolder" Click="Button_Click_OpenFolderScript" Height="32" VerticalAlignment="Top" />
-        <Button Grid.Column="1" Grid.Row="0" Width="Auto" HorizontalAlignment="Right" Margin="0,0,95,0" Content="Delete File" Click="Button_Click_RemoveScriptAsync" IsEnabled="{Binding ElementName=DownloadedListTable, Path=SelectedItems.IsFixedSize}"/>
+        <Button Grid.Column="1" Grid.Row="0" Width="Auto" HorizontalAlignment="Right" Margin="0,0,95,0" Content="Delete File" Click="Button_Click_RemoveScriptAsync" IsEnabled="{Binding ElementName=WhiteListTable, Path=SelectedItems.IsFixedSize}"/>
         <Button Grid.Column="1" Grid.Row="0" Width="50" HorizontalAlignment="Right" Margin="0,0,10,0" Content="Save" Click="Button_Click_SaveConf" />
 
     </Grid>
