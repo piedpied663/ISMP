@@ -35,7 +35,9 @@ namespace ISMP_Pluging.Network
             MyPlug.Instance.Config.WhiteListScripts.CollectionChanged += UpdateWhitelist;
             MyPlug.Instance.Config.PropertyChanged += OnResetScriptToggled;
             if (MyPlug.Instance.Config.ResetScriptEnabled)
-            { m_scripts[ResetPBScript.Id] = ResetPBScript.Name; }
+            {
+                m_scripts[ResetPBScript.Id] = ResetPBScript.Name;
+            }
 
             foreach (var script in MyPlug.Instance.Config.WhiteListScripts)
                 if (script.Enabled)

@@ -48,7 +48,7 @@ namespace ISMP_Pluging.Conf
         private UserControl _control;
         private static readonly Logger Log = LogManager.GetLogger("[ISMP_Pluging]@MyConfig");
         public UserControl GetControl() => _control ?? (_control = new MyVBase() { DataContext = this, Pluging = MyPlug.Instance });
-        private const string runningScriptsFileName = "ISMP_Pluging_ActiveScripts.xml";//NETOYAGE a FAIRE
+        private const string runningScriptsFileName = "ISMP_Pluging_ActiveScripts.xml";
         public MyConfig() : base()
         {
             WhiteListScripts.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs args) =>
@@ -148,6 +148,7 @@ namespace ISMP_Pluging.Conf
 
         public void AddRunningScript(long pbId, Script script)
         {
+            Log.Info($"pbID {pbId} Script {script.Name} CodeLength :> {script.Code.Length}");
             if (RunningScripts.ContainsKey(pbId))
             {
                 RunningScripts[pbId].ProgrammableBlocks.Remove(pbId);

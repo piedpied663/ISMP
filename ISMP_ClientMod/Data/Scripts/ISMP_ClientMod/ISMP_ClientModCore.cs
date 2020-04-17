@@ -28,7 +28,13 @@ namespace ISMP_ClientMod
         {
             MyAPIGateway.Multiplayer.RegisterMessageHandler(Config.MessageHandlerID, ReceiveRemoteRequest);
             SendToServer(new RemoteRequest(MyAPIGateway.Multiplayer.MyId, RemoteRequestType.CLIENT_REGISTRATION));
-            base.BeforeStart();
+            //base.BeforeStart();
+        }
+        public override void UpdateAfterSimulation()
+        {
+            MyAPIGateway.Multiplayer.RegisterMessageHandler(Config.MessageHandlerID, ReceiveRemoteRequest);
+            SendToServer(new RemoteRequest(MyAPIGateway.Multiplayer.MyId, RemoteRequestType.CLIENT_REGISTRATION));
+            //base.UpdateAfterSimulation();
         }
         private static void ReceiveWhitelist(ListUpdateAction action, object data)
         {
@@ -44,10 +50,15 @@ namespace ISMP_ClientMod
             foreach (var script in receivedScripts)
             {
                 if (action == ListUpdateAction.ADD)
+                {
                     WitheListData.Scripts[script.Key] = script.Value;
+
+                }
                 else if (action == ListUpdateAction.REMOVE && WitheListData.Scripts.ContainsKey(script.Key))
+                {
                     WitheListData.Scripts.Remove(script.Key);
-                ModLogger.Info($"    [{action}] {script.Value}");
+                }
+                ModLogger.Info($"OnReceive WhiteList  [{action}] {script.Value}");
             }
         }
 
@@ -61,7 +72,7 @@ namespace ISMP_ClientMod
             }
             catch (Exception e)
             {
-                ModLogger.Error(e.Message);
+                ModLogger.Error($"Error {e.Message}");
                 return;
             }
             ModLogger.Info("Successfully deserialized RemoteRequest.");
@@ -74,11 +85,8 @@ namespace ISMP_ClientMod
                     return;
                 }
 
+                ModLogger.Info(string.Format("Received  of {0} with scriptId {1}", clientRequest.RequestType, clientRequest.WhiteListAction));
                 ReceiveWhitelist(clientRequest.WhiteListAction, clientRequest.WhiteList);
-            }
-            else
-            {
-                ModLogger.Warning(string.Format("Invalid request type '{0}' to client!", request.RequestType));
             }
         }
         public static void SendToServer(RemoteRequest payload)

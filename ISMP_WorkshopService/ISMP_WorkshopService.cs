@@ -115,60 +115,92 @@ namespace ISMP_WorkshopService
 
         public async Task<bool> DownloadPublishFileAsync(string url, string patch, string name)
         {
-            var download = Task.Run(async delegate
+            var cleanup = Task.Run(delegate
             {
-                using (var Client = new WebClient())
+                DirectoryInfo OldDirectory = new DirectoryInfo(Path.Combine(patch, name));
                 {
-                   /* var downloadTask =*/
-                    await Client.DownloadFileTaskAsync(url, Path.Combine(patch, name));
-                }
-
-            });
-            await Task.WhenAny(download, Task.Delay(100000));
-            Log.Info($"Task Status {download.IsCompleted} ");
-
-            if (MyZipFileProvider.IsZipFile(Path.Combine(patch, name)))
-            {
-                string Code = null;
-
-                foreach (string item in MyFileSystem.GetFiles(Path.Combine(patch, name), ".cs", MySearchOption.AllDirectories))
-                {
-                    if (MyFileSystem.FileExists(item))
+                    if (OldDirectory.Exists)
                     {
-                        using (Stream stream = MyFileSystem.OpenRead(item))
+                        foreach (FileInfo fileInfo in OldDirectory.GetFiles())
                         {
-                            using (StreamReader streamReader = new StreamReader(stream))
-                            {
-                                Code = streamReader.ReadToEnd();
-                            }
+                            fileInfo.Delete();
                         }
+                        OldDirectory.Delete();
                     }
                 }
+            });
 
-                if (string.IsNullOrEmpty(Code))
+            if (await Task.WhenAny(cleanup, Task.Delay(5000)) == cleanup)
+            {
+                Log.Info("Cleanup Task Ended");
+
+                var download = Task.Run(async delegate
                 {
-                    Log.Error("Error with Reading Code");
-                    return false;
+                    using (var Client = new WebClient())
+                    {
+                        /* var downloadTask =*/
+                        await Client.DownloadFileTaskAsync(url, Path.Combine(patch, name));
+                    }
+
+                });
+                await Task.WhenAny(download, Task.Delay(10000));
+
+                if (MyZipFileProvider.IsZipFile(Path.Combine(patch, name)))
+                {
+                    Log.Info("Zip FIle Found Starting Extraction");
+                    string Code = null;
+
+                    var taskRead = Task<string>.Run(delegate
+                    {
+                        foreach (string item in MyFileSystem.GetFiles(Path.Combine(patch, name), ".cs", MySearchOption.AllDirectories))
+                        {
+                            if (MyFileSystem.FileExists(item))
+                            {
+                                using (Stream stream = MyFileSystem.OpenRead(item))
+                                {
+                                    using (StreamReader streamReader = new StreamReader(stream))
+                                    {
+                                        Code = streamReader.ReadToEnd();
+                                    }
+                                }
+                            }
+                        }
+                        return Code;
+                    });
+
+                    Code = await Task.WhenAny(taskRead).Result;
+                    Log.Info($"AWAITING CODE = {Code}");
+                    if (!string.IsNullOrEmpty(Code))//string.IsNullOrEmpty(Code))
+                    {
+                        string _path = Path.Combine(patch, name);  //$"{MyPlug.DownloadPatchCMD}\\{target.WorkshopID}";
+                                                                   //Log.Info(_path);
+                        if (MyFileSystem.FileExists(_path))
+                        {
+                            File.Delete(_path);
+                        }
+
+                        Directory.CreateDirectory(_path);
+                        File.WriteAllText(Path.Combine(_path, $"Script.cs"), Code);
+                        return true;
+                    }
+                    else
+                    {
+                        Log.Error("Error with Reading Code");
+                        return false;
+                    }
                 }
                 else
                 {
-
-                    string _path = Path.Combine(patch, name);  //$"{MyPlug.DownloadPatchCMD}\\{target.WorkshopID}";
-                    //Log.Info(_path);
-                    if (MyFileSystem.FileExists(_path))
-                    {
-                        File.Delete(_path);
-                    }
-
-                    Directory.CreateDirectory(_path);
-                    File.WriteAllText(Path.Combine(_path, $"Script.cs"), Code);
-                    return true;
+                    Log.Error("Error with Zip File Provide ");
+                    return false;
                 }
 
 
             }
             else
             {
+                Log.Error("Error with cleanup Task ");
+
                 return false;
             }
 

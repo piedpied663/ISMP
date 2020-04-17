@@ -11,13 +11,11 @@ namespace ISMP_ClientMod.Requests
     [ProtoInclude(2, typeof(WhiteListActionRequest))]
     public class RemoteRequest
     {
-        [ProtoMember(1)]
-        private RemoteRequestType requestType;
+        [ProtoMember(5)]
+        public RemoteRequestType RequestType;
 
-        [ProtoMember(2)]
+        [ProtoMember(6)]
         public ulong Sender = 0;
-
-        public RemoteRequestType RequestType { get => requestType; set => requestType = value; }
 
         public RemoteRequest() { }
 

@@ -74,52 +74,49 @@ namespace ISMP_Pluging
                 if (target.Deleted)
                 {
                     await Delete(target);
-                    Log.Info($"On Delete Item In Merged Table");
                     (DataContext as TheConfig).WhiteListScripts.Remove(target);
                     Pluging.Save();
                     MessageBox.Show($"Sucefully removed {target.Name}");
                 }
                 else
                 {
-                    Log.Info($"Merged Table Nothing Enable To Delete");
                     return;
                 }
 
             }
-            else
-            {
-                Log.Error($"Nothing to Do");
-                return;
-            }
-
-            await Task.Delay(100);
         }
         private async Task Delete(Script target)
         {
-            string Patch = target.Patch;
-            if (Patch.Contains("Script.cs"))
+            try
             {
-                //Log.Warn($"{target.Patch}");
-                //Log.Warn($"REPLACED {target.Patch.Replace("Script.cs", "")}");
-                Patch = target.Patch.Replace("Script.cs", "");
-            }
 
-            DirectoryInfo di = new DirectoryInfo($"{Patch}");
+                string Patch = target.Patch;
+                if (Patch.Contains("Script.cs"))
+                {
+                    Patch = target.Patch.Replace("Script.cs", "");
+                }
+                DirectoryInfo di = new DirectoryInfo($"{Patch}");
 
-            foreach (FileInfo file in di.GetFiles())
-            {
-                file.Delete();
-            }
-            foreach (DirectoryInfo dir in di.GetDirectories())
-            {
-                dir.Delete(true);
-            }
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo dir in di.GetDirectories())
+                {
+                    dir.Delete(true);
+                }
 
-            if (MyFileSystem.IsDirectory($"{di}"))
-            {
-                Directory.Delete($"{di}");
+                if (MyFileSystem.IsDirectory($"{di}"))
+                {
+                    Directory.Delete($"{di}");
+                }
             }
-            await Task.Delay(500);
+            catch (DirectoryNotFoundException exp)
+            {
+
+                Log.Error($"{exp.Message}");
+            }
+            await Task.Delay(50);
             return;
 
         }

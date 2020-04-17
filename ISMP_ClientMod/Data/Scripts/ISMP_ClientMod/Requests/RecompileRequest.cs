@@ -16,7 +16,9 @@ namespace ISMP_ClientMod.Requests
         [ProtoMember(2)]
         [DefaultValue(-1)]
         public long ScriptId = -1;
+
         public RecompileRequest() { }
+
         public RecompileRequest(ulong sender, long programmableBlock, long scriptId) : base(sender, RemoteRequestType.RECOMPILE)
         {
             PbId = programmableBlock;

@@ -62,7 +62,6 @@
                 <DataGridTextColumn  Header="InstallCount" Width="Auto" Binding="{Binding InstallCount, NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn  Header="LastUpdate" Width="Auto" Binding="{Binding LastUpdate, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <DataGridTextColumn  Header="MD5" Width="Auto" Binding="{Binding MD5Hash, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                <DataGridCheckBoxColumn Header="KeepUpdate" Width="Auto" Binding="{Binding KeepUpdated, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <DataGridCheckBoxColumn Header="DELETE" Width="Auto" Binding="{Binding Deleted, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 <DataGridTextColumn  Header="Install Patch" Width="Auto" Binding="{Binding Patch, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </DataGrid.Columns>

@@ -37,7 +37,7 @@ namespace ISMP_ClientMod
                 return;
 
             AddPBScriptSelector();
-            HideEditButton();
+            //HideEditButton();
             //base.OnAddedToContainer();
             Initialized = true;
         }
@@ -65,7 +65,7 @@ namespace ISMP_ClientMod
             ScriptDropBox.Setter = SetActiveScript;
 
         }
-        private void HideEditButton()
+        private void HideEditButton()//Depreciated 
         {
             List<IMyTerminalControl> controls = new List<IMyTerminalControl>();
             MyAPIGateway.TerminalControls.GetControls<IMyProgrammableBlock>(out controls);
@@ -108,7 +108,14 @@ namespace ISMP_ClientMod
             {
                 ISMP_ClientModCore.RequestPBRecompile(pb as IMyProgrammableBlock, l);
             }
+
         }
+        public override void UpdateAfterSimulation()
+        {
+            AddPBScriptSelector();
+            //base.UpdateAfterSimulation();
+        }
+
     }
 
 

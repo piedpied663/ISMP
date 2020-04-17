@@ -123,7 +123,7 @@ namespace ISMP_Pluging.ViewChildren
                     }
                     else//Bypass SteamCMD
                     {
-                        statusMsg = "Fil No Have Url";
+                        statusMsg = "Fil No Have Url starting bypass";
                         Log.Warn($"{statusMsg}");
                         //delay = 1000;
                         if (!await MyPlug.Instance.BypassBySteamCMDAsync(workshopId))
@@ -135,7 +135,8 @@ namespace ISMP_Pluging.ViewChildren
                         else
                         {
                             await MyPlug.Instance.Addtolist(publishedItemDetails);
-                            statusMsg = $"Succufully Downloaded {publishedItemDetails.Title}";
+                            statusMsg = $"Successfully Downloaded {publishedItemDetails.Title}";
+                            Log.Info(statusMsg);
                             delay = 1000;
                             shouldClose = true;
                         }

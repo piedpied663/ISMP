@@ -10,12 +10,13 @@ namespace ISMP_ClientMod.Requests
     [ProtoContract]
     public class WhiteListActionRequest : RemoteRequest
     {
-        [ProtoMember(1)]
+        [ProtoMember(3)]
         public ListUpdateAction WhiteListAction = ListUpdateAction.ADD;
-        [ProtoMember(2)]
+
+        [ProtoMember(4)]
         public Dictionary<long, string> WhiteList = new Dictionary<long, string>();
 
-        public WhiteListActionRequest() { }
+        public WhiteListActionRequest() {}
 
         public WhiteListActionRequest(ulong sender, ListUpdateAction action, Dictionary<long, string> whitelist) : base(sender, RemoteRequestType.WHITELIST_ACTION)
         {
@@ -23,5 +24,5 @@ namespace ISMP_ClientMod.Requests
             WhiteListAction = action;
         }
     }
-    public enum ListUpdateAction : byte { ADD, REMOVE }
+    public enum ListUpdateAction : byte { ADD, REMOVE}
 }

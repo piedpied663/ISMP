@@ -66,7 +66,7 @@ namespace ISMP_Pluging
         public const string BASE_SCRIPT = "Scripts";
         public const string ERROR_FILE_CONFIG = "Configuration can't be Read Check Log for details ";
         public const string ERROR_FOLDER_SCRIPT = "Sripts Folder Error Check Log for details ";
-        public const long MOD_ID = 2053560250;
+        public const long MOD_ID = 2054788764;
 
         private static readonly Logger Log = LogManager.GetLogger("[ISMP_Pluging]@BasePluging > ");
         private TorchSessionManager _Tm;
@@ -232,7 +232,6 @@ namespace ISMP_Pluging
 
             await Task.Delay(150);
         }
-
         public async Task<ulong> TryParseAsync(string _worshopID)
         {
             await Task.Delay(50);
@@ -408,7 +407,6 @@ namespace ISMP_Pluging
                 return false;
             }
         }
-
         public async Task<bool> RemoveScriptFromGameAsync(string scriptWorkshopID)
         {
             foreach (var item in _config.Data.WhiteListScripts)
@@ -447,6 +445,7 @@ namespace ISMP_Pluging
             return true;
 
         }
+
 
         static public void PatchSession(PatchContext context)
         {
@@ -570,6 +569,7 @@ namespace ISMP_Pluging
 
             if (MySession.Static.GetUserPromoteLevel(clientID) == MyPromoteLevel.Owner)//If Client is Same As Server !
             {
+                Log.Info($"REQUEST FROM USER ID < {clientID} >  HAVE PERMISSION TO BYPASS WHITELIST [OWNER]");
 
                 return true;
             }
@@ -578,23 +578,26 @@ namespace ISMP_Pluging
             if (MySession.Static.GetUserPromoteLevel(clientID) == MyPromoteLevel.Admin)//If Client is Admin On Server !
             {
 
+                Log.Info($"REQUEST FROM USER ID < {clientID} >  HAVE PERMISSION TO BYPASS WHITELIST [ADMIN]");
                 return true;
             }
 
             if (MySession.Static.GetUserPromoteLevel(clientID) == MyPromoteLevel.Scripter)//If Client is Scripter On Server !
             {
+                Log.Info($"REQUEST FROM USER ID < {clientID} >  HAVE PERMISSION TO BYPASS WHITELIST [SCRIPTER]");
 
                 return true;
             }
             if (MySession.Static.GetUserPromoteLevel(clientID) == MyPromoteLevel.SpaceMaster)//If Client is Space master On Server !
             {
+                Log.Info($"REQUEST FROM USER ID < {clientID} > HAVE PERMISSION TO BYPASS WHITELIST [SPACEMASTER] ");
 
                 return true;
             }
 
-            if (MySession.Static.GetUserPromoteLevel(clientID) == MyPromoteLevel.None)//If Client is Nothing or a NewsUser
+            if (MySession.Static.GetUserPromoteLevel(clientID) == MyPromoteLevel.None)//Normal player
             {
-                Log.Info($"REJECTED REQUEST FROM USER ID < {clientID} > NO HAVE PERMISSION TO BYPASS WHITELIST ");
+                Log.Info($"REJECTED REQUEST FROM USER ID < {clientID} > NO HAVE PERMISSION TO BYPASS WHITELIST [NORMALPLAYER]");
 
                 return false;
             }
@@ -626,6 +629,7 @@ namespace ISMP_Pluging
 
             return false;
         }
+
         private void OnSessionChanged(ITorchSession torchSession, TorchSessionState sessionState)
         {
             switch (sessionState)
