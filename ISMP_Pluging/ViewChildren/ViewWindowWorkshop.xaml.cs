@@ -69,15 +69,17 @@ namespace ISMP_Pluging.ViewChildren
             var shouldClose = false;
             var delay = 5000;
             string statusMsg;
-            ulong Woo = await MyPlug.Instance.TryParseAsync(WorshopUserTextEntryID.Text);
+            
+            ulong workshopId = await MyPlug.Instance.TryParseAsync(WorshopUserTextEntryID.Text);
+            
 
 
-            if (!ulong.TryParse($"{Woo}", out ulong workshopId))     //!($"{workshopId}".Contains("0")))
+            if (workshopId.ToString() == "0")     //!($"{workshopId}".Contains("0")))
             {
 
-                statusMsg = $"{workshopId} It's not an Valid Id";
+                statusMsg = $"It's not an Valid Id";
                 Log.Info($"{statusMsg}");
-                delay = 500;
+                delay = 1500;
             }
             else
             {

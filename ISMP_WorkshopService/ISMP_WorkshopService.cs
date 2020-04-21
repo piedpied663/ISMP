@@ -105,16 +105,14 @@ namespace ISMP_WorkshopService
 
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="workshopIds"></param>
-        /// <returns></returns>
-        /// 
-
-
+        /*
+         * 
+         * If Download by PostMethod The File is ZIP, so
+         * we need to etract and clean old unless file
+         */
         public async Task<bool> DownloadPublishFileAsync(string url, string patch, string name)
         {
+            //if files already exist it's deleted
             var cleanup = Task.Run(delegate
             {
                 DirectoryInfo OldDirectory = new DirectoryInfo(Path.Combine(patch, name));
@@ -132,7 +130,7 @@ namespace ISMP_WorkshopService
 
             if (await Task.WhenAny(cleanup, Task.Delay(5000)) == cleanup)
             {
-                Log.Info("Cleanup Task Ended");
+                //Cleaned State Start download
 
                 var download = Task.Run(async delegate
                 {
@@ -145,9 +143,10 @@ namespace ISMP_WorkshopService
                 });
                 await Task.WhenAny(download, Task.Delay(10000));
 
+                //When downloaded File 
                 if (MyZipFileProvider.IsZipFile(Path.Combine(patch, name)))
                 {
-                    Log.Info("Zip FIle Found Starting Extraction");
+                    //Log.Info("Zip FIle Found Starting Extraction");
                     string Code = null;
 
                     var taskRead = Task<string>.Run(delegate
@@ -167,31 +166,34 @@ namespace ISMP_WorkshopService
                         }
                         return Code;
                     });
+                    //taskread => Read the .cs file in ZIP and store it
 
                     Code = await Task.WhenAny(taskRead).Result;
-                    Log.Info($"AWAITING CODE = {Code}");
-                    if (!string.IsNullOrEmpty(Code))//string.IsNullOrEmpty(Code))
+                    //Log.Info($"AWAITING CODE = {Code}");
+
+                    if (!string.IsNullOrEmpty(Code)) 
                     {
-                        string _path = Path.Combine(patch, name);  //$"{MyPlug.DownloadPatchCMD}\\{target.WorkshopID}";
-                                                                   //Log.Info(_path);
+                        string _path = Path.Combine(patch, name);  
+                                                                   
+                        //another step Clean if needed
                         if (MyFileSystem.FileExists(_path))
                         {
                             File.Delete(_path);
                         }
 
-                        Directory.CreateDirectory(_path);
-                        File.WriteAllText(Path.Combine(_path, $"Script.cs"), Code);
+                        Directory.CreateDirectory(_path);//create directory
+                        File.WriteAllText(Path.Combine(_path, $"Script.cs"), Code);//Create the file .cs In Instance/Scritps
                         return true;
                     }
                     else
                     {
-                        Log.Error("Error with Reading Code");
+                        //Log.Error("Error with Reading Code");
                         return false;
                     }
                 }
                 else
                 {
-                    Log.Error("Error with Zip File Provide ");
+                    //Log.Error("Error with Zip File Provide ");
                     return false;
                 }
 
@@ -207,58 +209,8 @@ namespace ISMP_WorkshopService
 
         }
 
-        //public async Task<bool> OnMergedDonloadedScriptAsync(string patch, string name)
-        //{
-
-
-        //    // if (MyFileSystem.FileExists(Path.Combine(patch, name)))
-        //    //{
-        //    //    foreach (string item in MyFileSystem.GetFiles(Path.Combine(patch, name), ".cs", MySearchOption.AllDirectories))
-        //    //    {
-        //    //        if (MyFileSystem.FileExists(item))
-        //    //        {
-        //    //            using (Stream stream = MyFileSystem.OpenRead(item))
-        //    //            {
-        //    //                using (StreamReader streamReader = new StreamReader(stream))
-        //    //                {
-        //    //                    Code = streamReader.ReadToEnd();
-        //    //                }
-        //    //            }
-        //    //        }
-
-        //    //    }
-        //    //    if (string.IsNullOrEmpty(Code))
-        //    //    {
-
-        //    //        return false;
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //         //Log.Info($"{Code}");
-        //    //         //Directory.CreateDirectory()
-        //    //         string _path = Path.Combine(patch, name);  //$"{MyPlug.DownloadPatchCMD}\\{target.WorkshopID}";
-        //    //        Log.Info(_path);
-        //    //        if (File.Exists(_path))
-        //    //        {
-        //    //            File.Delete(_path);
-        //    //        }
-
-        //    //        Directory.CreateDirectory(_path);
-        //    //        File.WriteAllText(Path.Combine(_path, $"Script.cs"), Code);
-        //    //        return true;
-        //    //    }
-        //    //}
-        //    //else
-        //    //{
-        //    //    return false;
-        //    //}
-
-        //}
-
         public async Task<Dictionary<ulong, PublishedItemDetails>> GetPublishedFileDetailsAsync(IEnumerable<ulong> workshopIds)
         {
-            //if (!IsReady)
-            //    throw new Exception("ISMP_WorshopService not initialized!");
             using (dynamic remoteStorage = SteamKit2.WebAPI.GetInterface("ISteamRemoteStorage"))
             {
                 KeyValue allFilesDetails = null;

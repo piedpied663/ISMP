@@ -95,21 +95,12 @@ namespace ISMP_Pluging
             BasePatch = StoragePath.Replace("Instance", "");
             ConfigPatch = Path.Combine(StoragePath, BASE_CONFIG);
             ScriptPath = Path.Combine(StoragePath, $"{BASE_SCRIPT}");
-            DownloadPatchCMD = ScriptPath; //$"{BasePatch}steamapps\\workshop\\content\\{Utility.AppID}\\"; OVERRIDE IN SCRIPT REQUEST
+            DownloadPatchCMD = ScriptPath;
             SteamCmdDirectoryPatch = $"{BasePatch}steamcmd";
-
-            //Log.Info($"BasePatch = {BasePatch}");
-            //Log.Info($"ScriptPatch = {ScriptPath}");
-            //Log.Info($"SteamCmdDirectoryPatch =  {SteamCmdDirectoryPatch}");
-            //Log.Info($"DownloadPatchCMD = {DownloadPatchCMD}");
 
             _config = Persistent<TheConfig>.Load(Path.Combine(StoragePath, BASE_CONFIG));
 
             bool IsMyConfigLoaded = (_config != null) ? true : false;
-
-            //MyPlug.BasePatch = MyFileSystem.ContentPath.Replace("Content", "");
-            //MyPlug.DownloadPatch = $"{MyPlug.BasePatch}steamapps\\workshop\\content\\{Utility.AppID}";
-            //MyPlug.SteamCmdDirectoryPatch = $"{MyPlug.BasePatch}steamcmd";
 
             bool ScriptPathExist = (MyFileSystem.DirectoryExists(ScriptPath)) ? true : false;
             if (!IsMyConfigLoaded || !ScriptPathExist)
@@ -133,21 +124,6 @@ namespace ISMP_Pluging
                 }
 
             }
-            //DirectoryInfo directoryInfoScripts = new DirectoryInfo(ScriptPath);
-            //foreach(DirectoryInfo directoryInfo in directoryInfoScripts.GetDirectories())
-            //{
-            //    if (ulong.TryParse(directoryInfo.Name, out ulong FolderScript))
-            //    {
-            //        //Log.Info($"Found  {FolderScript}");
-            //        foreach (FileInfo fileInfo in directoryInfo.GetFiles())
-            //        {
-            //            if (fileInfo.Name.Contains(".cs"))
-            //            {
-            //                //Log.Info($"Found  {FolderScript}   with {fileInfo.Name} ");
-            //            }
-            //        }
-            //    }
-            //}
 
             Instance = this;
             _Tm = Torch.Managers.GetManager<TorchSessionManager>();
@@ -156,7 +132,7 @@ namespace ISMP_Pluging
             var pathManager = torch.Managers.GetManager<PatchManager>();
             var patchContext = pathManager.AcquireContext();
             PatchSession(patchContext);
-            PatchPB(patchContext);     //apply hooks
+            PatchPB(patchContext);
             pathManager.Commit();
 
 
@@ -239,7 +215,7 @@ namespace ISMP_Pluging
             if (!ulong.TryParse(_worshopID, out ulong workshopId))
             {
                 Log.Error($"ERROR Submit ID {_worshopID} it's not an good ID out {workshopId}");
-                return 0;
+                return 0L;
             }
             else
             {
@@ -247,6 +223,12 @@ namespace ISMP_Pluging
                 return workshopId;
             }
         }
+
+        /*
+         * Two Ways For download First by simple Post Method (DownloadBySteamWoshopServiceAsync) For Getting PublishedDetails, if URL have found he donwload it
+         * Sometime no url fond so
+         * If no Url found Second Method call with (BypassBySteamCMDAsync) 
+         */
         public async Task<bool> DownloadBySteamWoshopServiceAsync(string fileUrl, string fileWorshopID)
         {
             var _workShopService = WebAPI.Instance;
@@ -262,6 +244,10 @@ namespace ISMP_Pluging
 
 
         }
+      
+        /*
+         * Using Steam Cmd for download item with anonymous login
+         */
         public async Task<bool> BypassBySteamCMDAsync(ulong WorkShopID)
         {
 
@@ -272,6 +258,7 @@ namespace ISMP_Pluging
 
             string RunScript = $"{SteamCmdPatch}\\worshopDownload.txt";
             string[] param = { "@ShutdownOnFailedCommand 1 ", "@NoPromptForPassword 1", $"force_install_dir ../", "login anonymous", $"workshop_download_item {Utility.AppID} {WorkShopID}", "quit" };
+            //create a file each time a new submit commit
             File.WriteAllLines(RunScript, param);
 
             var steamCMD = Task.Run(delegate
@@ -293,7 +280,10 @@ namespace ISMP_Pluging
             });
 
             await Task.WhenAll(steamCMD, Task.Delay(5000));
-
+            /*
+             * When Download With SteamCMD Folder it's not the same so
+             * We Found requested ID in other folder and move it to The Instance folder !
+             */
             DirectoryInfo di = new DirectoryInfo(DownloadPatch);
             {
 
