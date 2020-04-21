@@ -28,14 +28,14 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="1"  Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBlack" FontSize="16" Text="[ISMP] Ingames Scripts Manager Pluging"/>
-        <Label Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBlack" FontSize="13" Content="Listes des scripts trouver sur le serveur (Serveur ..\steamapps\workshop\content\244850)"/>
+        <Label Grid.Row="1" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBlack" FontSize="13" Content="WhiteListed Scripts"/>
         <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Content="Enable Whitelist" Margin="10,10,80,10" IsChecked="{Binding EnabledWhiteList}"/>
         <CheckBox Content="Add Reset Script" VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" Margin="80,10,10,0" IsChecked="{Binding ResetScriptEnabled}">
             <ToolTipService.ToolTip>
                 <ToolTip Content="Add a script to the whitelist which enables players to reset a PB's Storage variable."></ToolTip>
             </ToolTipService.ToolTip>
         </CheckBox>
-        <Label Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBlack" FontSize="13" Content="Listes des scripts Actif sur le serveur (Serveur ../Instance/Scripts)"/>
+        <Label Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="ExtraBlack" FontSize="13" Content="Available Script ( ../Instance/Scripts)"/>
         <DataGrid Name="WhiteListTable"
                   Grid.Row="4"
                   Grid.RowSpan="3"

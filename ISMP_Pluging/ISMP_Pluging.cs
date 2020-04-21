@@ -66,7 +66,7 @@ namespace ISMP_Pluging
         public const string BASE_SCRIPT = "Scripts";
         public const string ERROR_FILE_CONFIG = "Configuration can't be Read Check Log for details ";
         public const string ERROR_FOLDER_SCRIPT = "Sripts Folder Error Check Log for details ";
-        public const long MOD_ID = 2054788764;
+        public const long MOD_ID = 2066935803;
 
         private static readonly Logger Log = LogManager.GetLogger("[ISMP_Pluging]@BasePluging > ");
         private TorchSessionManager _Tm;
@@ -566,7 +566,9 @@ namespace ISMP_Pluging
         static private bool CanBypassWhitelist(IMyProgrammableBlock pb)
         {
             ulong clientID = MySession.Static.Players.TryGetSteamId(pb.OwnerId);
-
+            var factionTag = pb.GetOwnerFactionTag();
+            var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(factionTag);
+            var shareMode = ((MyCubeBlock)pb).IDModule.ShareMode;
             if (MySession.Static.GetUserPromoteLevel(clientID) == MyPromoteLevel.Owner)//If Client is Same As Server !
             {
                 Log.Info($"REQUEST FROM USER ID < {clientID} >  HAVE PERMISSION TO BYPASS WHITELIST [OWNER]");
@@ -602,7 +604,6 @@ namespace ISMP_Pluging
                 return false;
             }
 
-            var shareMode = ((MyCubeBlock)pb).IDModule.ShareMode;
             if (shareMode == MyOwnershipShareModeEnum.All)
             {
                 return false;
@@ -613,8 +614,6 @@ namespace ISMP_Pluging
                 return false;
             }
 
-            var factionTag = pb.GetOwnerFactionTag();
-            var faction = MyAPIGateway.Session.Factions.TryGetFactionByTag(factionTag);
             if (faction == null)
             {
                 return true;
@@ -624,8 +623,6 @@ namespace ISMP_Pluging
             {
                 return true;
             }
-
-
 
             return false;
         }

@@ -110,10 +110,10 @@ namespace ISMP_ClientMod
             }
 
         }
-        public override void UpdateAfterSimulation()
+        public override void UpdateOnceBeforeFrame()
         {
             AddPBScriptSelector();
-            //base.UpdateAfterSimulation();
+            //base.UpdateOnceBeforeFrame();
         }
 
     }
